@@ -108,15 +108,15 @@ function Landing() {
 
       <section className="feature-grid">
         <div className="feature-card">
-          <h3>Unified Profiles</h3>
+          <h3 className='text-primary'>Unified Profiles</h3>
           <p>Store contact details, batch info, and images in one secure space.</p>
         </div>
         <div className="feature-card">
-          <h3>Quick Actions</h3>
+          <h3 className='text-success'>Quick Actions</h3>
           <p>Trigger edits or removals without leaving the student table.</p>
         </div>
         <div className="feature-card">
-          <h3>Teacher Dashboards</h3>
+          <h3 className='text-danger'>Teacher Dashboards</h3>
           <p>See your class status instantly with live counts and updates.</p>
         </div>
       </section>

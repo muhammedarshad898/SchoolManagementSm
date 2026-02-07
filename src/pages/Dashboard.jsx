@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 function Dashboard() {
   const[Students,setstudent]=useState([])
   const {response}=useContext(responseContext)
+  const [searchTerm, setSearchTerm] = useState('');
+  
   const nav=useNavigate()
   useEffect(()=>{
     getdata()
@@ -40,10 +42,22 @@ function Dashboard() {
     else{
       toast.warning("deletion failed")
     }
-    
 
-
+   
   }
+
+  const normalizedSearch = searchTerm.trim().toLowerCase()
+  const filteredStudents = [...Students].filter((item) => {
+    const first = (item?.first_name ?? '').toLowerCase()
+    const last = (item?.last_name ?? '').toLowerCase()
+    const phone = String(item?.phone ?? '')
+    return (
+      first.includes(normalizedSearch) ||
+      last.includes(normalizedSearch) ||
+      phone.includes(searchTerm.trim())
+    )
+  })
+
   const logout=()=>{
     sessionStorage.clear()
     nav('/')
@@ -70,14 +84,15 @@ function Dashboard() {
       </header>
 
       <div className="dash-shell">
-        <div className="dash-actions-row">
+        <div className="dash-actions-row d-flex align-items-center justify-content-between">
+          <input type="text" className='form-control w-50' onChange={e=> setSearchTerm(e.target.value)} placeholder='Search students...' />
           <Add />
         </div>
 
         <section className="data-card">
           <div className="data-header">
             <div>
-              <h2>Student Roster</h2>
+              <h2 className='text-dark'>Student Roster</h2>
               <p>Manage every student detail in one place.</p>
             </div>
             <span className="count-pill">{totalStudents} students</span>
@@ -96,7 +111,7 @@ function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {Students.map((item,index)=>(
+                {filteredStudents.map((item,index)=>(
                   <tr key={item._id}>
                     <td>{index+1}</td>
                     <td>{item.first_name}</td>
